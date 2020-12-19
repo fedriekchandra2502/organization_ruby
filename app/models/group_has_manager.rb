@@ -1,0 +1,2 @@
+class GroupHasManager < ApplicationRecord
+end

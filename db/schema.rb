@@ -10,7 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_19_083537) do
+ActiveRecord::Schema.define(version: 2020_12_19_125651) do
+
+  create_table "group_has_managers", force: :cascade do |t|
+    t.integer "group_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["group_id"], name: "index_group_has_managers_on_group_id"
+    t.index ["user_id"], name: "index_group_has_managers_on_user_id"
+  end
+
+  create_table "group_has_pics", force: :cascade do |t|
+    t.string "pic_name"
+    t.string "email"
+    t.string "phone"
+    t.string "avatar"
+    t.integer "group_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["group_id"], name: "index_group_has_pics_on_group_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "group_name"
+    t.string "email"
+    t.string "phone"
+    t.string "website"
+    t.text "logo"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_groups_on_email", unique: true
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -26,4 +57,7 @@ ActiveRecord::Schema.define(version: 2020_12_19_083537) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "group_has_managers", "groups"
+  add_foreign_key "group_has_managers", "users"
+  add_foreign_key "group_has_pics", "groups"
 end

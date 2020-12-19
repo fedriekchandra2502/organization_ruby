@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Pic name:</strong>
+  <%= @group_has_pic.pic_name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @group_has_pic.email %>
+</p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @group_has_pic.phone %>
+</p>
+
+<p>
+  <strong>Avatar:</strong>
+  <%= @group_has_pic.avatar %>
+</p>
+
+<p>
+  <strong>Group:</strong>
+  <%= @group_has_pic.group_id %>
+</p>
+
+<%= link_to 'Edit', edit_group_has_pic_path(@group_has_pic) %> |
+<%= link_to 'Back', group_has_pics_path %>

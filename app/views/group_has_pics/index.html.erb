@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Group Has Pics</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Pic name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Avatar</th>
+      <th>Group</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @group_has_pics.each do |group_has_pic| %>
+      <tr>
+        <td><%= group_has_pic.pic_name %></td>
+        <td><%= group_has_pic.email %></td>
+        <td><%= group_has_pic.phone %></td>
+        <td><%= group_has_pic.avatar %></td>
+        <td><%= group_has_pic.group_id %></td>
+        <td><%= link_to 'Show', group_has_pic %></td>
+        <td><%= link_to 'Edit', edit_group_has_pic_path(group_has_pic) %></td>
+        <td><%= link_to 'Destroy', group_has_pic, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Group Has Pic', new_group_has_pic_path %>
