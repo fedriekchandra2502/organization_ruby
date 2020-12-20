@@ -1,10 +1,13 @@
 Rails.application.routes.draw do
-  resources :group_has_pics
-  resources :groups
+  resources :groups do
+    resources :group_has_pics
+    # get "/pic/new", to: "group_has_pics#new"
+  end
+  post "group/assign-manager", to: "groups#assignManager"
   devise_for :users
   devise_scope :user do
     authenticated :user do
-      root 'home#index', as: :authenticated_root
+      root 'groups#index', as: :authenticated_root
     end
     unauthenticated do
       root 'devise/sessions#new', as: :unauthenticated_root

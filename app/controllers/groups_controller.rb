@@ -4,12 +4,21 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    @groups = Group.all
+    @groups = Group.where("group_name like ?","%"+params[:search].to_s+"%").all
   end
 
   # GET /groups/1
   # GET /groups/1.json
   def show
+    @group = Group.find(params[:id])
+    @group_has_pic = GroupHasPic.new
+    @pics = GroupHasPic.where(group_id: params[:id]).all
+    @users = User.all
+    if GroupHasManager.where(group_id: params[:id], user_id: current_user.id).first
+      @isManager = true
+    else
+      @isManager = false
+    end
   end
 
   # GET /groups/new
@@ -24,17 +33,19 @@ class GroupsController < ApplicationController
   # POST /groups
   # POST /groups.json
   def create
-    @group = Group.new(group_params)
+    @group = Group.create!(group_params)
 
-    respond_to do |format|
-      if @group.save
-        format.html { redirect_to @group, notice: 'Group was successfully created.' }
-        format.json { render :show, status: :created, location: @group }
-      else
-        format.html { render :new }
-        format.json { render json: @group.errors, status: :unprocessable_entity }
-      end
-    end
+    redirect_to '/groups'
+
+    # respond_to do |format|
+    #   if @group.save
+    #     format.html { redirect_to @group, notice: 'Group was successfully created.' }
+    #     format.json { render :show, status: :created, location: @group }
+    #   else
+    #     format.html { render :new }
+    #     format.json { render json: @group.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # PATCH/PUT /groups/1
@@ -49,6 +60,15 @@ class GroupsController < ApplicationController
         format.json { render json: @group.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def assignManager
+    @manager = GroupHasManager.new
+    @manager.user_id = params[:user_id]
+    @manager.group_id = params[:group_id]
+    @manager.save
+
+    redirect_to '/groups/'+params[:group_id]
   end
 
   # DELETE /groups/1
@@ -70,5 +90,9 @@ class GroupsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def group_params
       params.require(:group).permit(:group_name, :email, :phone, :website, :logo)
+    end
+
+    def manager_params
+      params.permit(:group_id, :user_id)
     end
 end
