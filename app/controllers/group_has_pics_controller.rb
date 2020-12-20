@@ -1,5 +1,6 @@
 class GroupHasPicsController < ApplicationController
   before_action :set_group_has_pic, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:index, :show]
 
   # GET /group_has_pics
   # GET /group_has_pics.json
